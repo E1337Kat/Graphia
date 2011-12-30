@@ -33,30 +33,30 @@ public class WalkController : MonoBehaviour
 		// If we are not yet at our destination:
 		if(destination!=transform.position)
 		{
-			// Conditional variable declaration saves a small amount of time in this method.
-			Vector3 direction;
-			// Take the difference between the two points.
-			direction =  destination - transform.position;
-			// Normalize it.
-			direction.Normalize();
-			// Move toward it at a rate of speed per Time.deltaTime.
-			controller.SimpleMove(direction * speed);
-			// If we haven't moved (and are therefore stuck) reset the destination.
-			if(controller.velocity==Vector3.zero)
-			{
-				destination = transform.position;
-				animation.Play("idle");
-			}
-			else
-			{
-				animation.Play("walk");
-			}
-			// Set the direction to rotate toward.
-			direction = Vector3.Slerp(transform.TransformPoint(Vector3.forward), destination, Time.deltaTime);
+			// Find forward relative to the player.
+			Vector3 direction = transform.forward;
+			// Interpolate between forward and the destination.
+			direction = Vector3.Slerp(direction, destination, Time.deltaTime);
 			// Mute the y-axis in the direction, as to prevent tilting.
 			direction.y = transform.position.y;
-			// Rotate slowly to look the destination
+			// Rotate slowly to look in the correct direction.
 			transform.LookAt(direction);
+			
+			// Move forward.
+			controller.SimpleMove(transform.forward * speed);
+		}
+		// If we haven't moved (and are therefore stuck):
+		if(controller.velocity==Vector3.zero)
+		{
+			// Reset the destination, and
+			destination = transform.position;
+			// Switch to the idle animation.
+			animation.Play("idle");
+		}
+		else
+		{
+			// Otherwise, use the walk animation.
+			animation.Play("walk");
 		}
 	}
 }

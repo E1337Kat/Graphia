@@ -17,7 +17,13 @@ public class CameraFollow : MonoBehaviour
 	/// </summary>
 	void Update ()
 	{
-		transform.position = target.TransformPoint(offset);
+		float distance = 0.0f;
+		
+		// Set camera rotation.
 		transform.LookAt (target.position);
+		
+		// Push or pull the camera from the player to appropriate following distance.
+		distance = Vector3.Distance(target.position, transform.position) - offset.magnitude;
+		transform.Translate(distance * Vector3.forward);
 	}
 }

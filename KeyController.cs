@@ -24,10 +24,21 @@ public class KeyController : MonoBehaviour
 		// If any of the arrow keys are being pressed,
 		if(Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
 		{
-			// Set the target of the walk controller to a point represenative of the direction in which to move.
-			Vector3 direction = (Vector3.left * Input.GetAxis("Horizontal")) + (Vector3.forward * Input.GetAxis("Vertical"));
-			direction.Normalize();
-			Vector3 target = transform.TransformPoint(direction * Time.deltaTime);
+			// Calculate a vector of the direction to move in.
+			Vector3 target = Vector3.right * Input.GetAxis("Horizontal");
+			target += Vector3.forward * Input.GetAxis("Vertical");
+			
+			// Normalize and multiply by deltaTime to remove any bias in player movement.
+			target.Normalize();
+			target *= Time.deltaTime;
+			
+			// Compensate for offset on camera position.
+			target += Camera.main.transform.InverseTransformPoint(transform.position);
+			
+			// Transform the camera destination into world space.
+			target = Camera.main.transform.TransformPoint(target);
+			
+			// Assign the target to the walk controller's destination to begin movement.
 			walkController.destination = target;
 		}
 	}
