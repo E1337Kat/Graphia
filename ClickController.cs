@@ -13,7 +13,7 @@ public class ClickController : MonoBehaviour
     private RaycastHit hit;
 	
 	/// <summary>
-	/// Initialize nma to the instance of NavMeshAgent on this object.
+	/// Initialize walkController to the instance of NavMeshAgent on this object.
 	/// </summary>
 	void Start ()
 	{

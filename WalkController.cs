@@ -1,15 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class WalkController : MonoBehaviour {
+public class WalkController : MonoBehaviour
+{
 	/// <summary>
 	/// A reference to the controller to speed runtime.
 	/// </summary>
 	private CharacterController controller;
-	/// <summary>
-	/// The previous position of the transform, used to detect if the object has become stuck.
-	/// </summary>
-	private Vector3 previousPosition;
 	/// <summary>
 	/// The speed at which to move.
 	/// </summary>
@@ -22,16 +19,17 @@ public class WalkController : MonoBehaviour {
 	/// <summary>
 	/// Initialize the destination to the object's position and the previous position to the current position.
 	/// </summary>
-	void Start () {
+	void Start ()
+	{
 		controller = GetComponent<CharacterController>();
 		destination = transform.position;
-		previousPosition = transform.position;
 	}
 	
 	/// <summary>
 	/// If the object is not at it's destination, move toward it. If it can no longer move, reset it's destination. If we're not grounded, fall.
 	/// </summary>
-	void Update () {
+	void Update ()
+	{
 		// If we are not yet at our destination:
 		if(destination!=transform.position)
 		{
@@ -44,17 +42,21 @@ public class WalkController : MonoBehaviour {
 			// Move toward it at a rate of speed per Time.deltaTime.
 			controller.SimpleMove(direction * speed);
 			// If we haven't moved (and are therefore stuck) reset the destination.
-			if(previousPosition==transform.position)
+			if(controller.velocity==Vector3.zero)
 			{
 				destination = transform.position;
 				animation.Play("idle");
 			}
 			else
 			{
-				direction.y = transform.position.y;
-				transform.LookAt(direction);
 				animation.Play("walk");
 			}
+			// Set the direction to rotate toward.
+			direction = Vector3.Slerp(transform.TransformPoint(Vector3.forward), destination, Time.deltaTime);
+			// Mute the y-axis in the direction, as to prevent tilting.
+			direction.y = transform.position.y;
+			// Rotate slowly to look the destination
+			transform.LookAt(direction);
 		}
 	}
 }
