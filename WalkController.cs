@@ -30,23 +30,23 @@ public class WalkController : MonoBehaviour
 	/// </summary>
 	void Update ()
 	{
+		Vector3 direction;
+		
 		// If we are not yet at our destination:
 		if(destination!=transform.position)
 		{
-			// Find forward relative to the player.
-			Vector3 direction = transform.forward;
-			// Interpolate between forward and the destination.
-			direction = Vector3.Slerp(direction, destination, Time.deltaTime);
-			// Mute the y-axis in the direction, as to prevent tilting.
-			direction.y = transform.position.y;
-			// Rotate slowly to look in the correct direction.
-			transform.LookAt(direction);
 			
-			// Move forward.
-			controller.SimpleMove(transform.forward * speed);
+			destination.y = transform.position.y;
+			
+			transform.LookAt(destination);
+			
+			direction = destination - transform.position;
+			
+			controller.SimpleMove(speed * direction.normalized);
 		}
+		
 		// If we haven't moved (and are therefore stuck):
-		if(controller.velocity==Vector3.zero)
+		if(controller.velocity.sqrMagnitude==0)
 		{
 			// Reset the destination, and
 			destination = transform.position;
