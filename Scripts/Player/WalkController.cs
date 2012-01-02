@@ -34,8 +34,12 @@ public class WalkController : MonoBehaviour
 	/// </summary>
 	void Start ()
 	{
+		// Initialize necessary variables.
 		controller = GetComponent<CharacterController>();
 		destination = transform.position;
+		
+		// Set all animations to loop.
+		animation.wrapMode = WrapMode.Loop;
 	}
 	
 	/// <summary>
@@ -59,18 +63,18 @@ public class WalkController : MonoBehaviour
 			controller.SimpleMove(speed * direction.normalized);
 		}
 		
-		// If we haven't moved (and are therefore stuck):
-		if(controller.velocity.sqrMagnitude==0)
+		// If we have arrived at our destination.
+		if(Vector3.Distance(destination, transform.position)<Time.deltaTime)
 		{
 			// Reset the destination, and
 			destination = transform.position;
 			// Switch to the idle animation.
-			animation.Play("idle");
+			animation.CrossFade("idle");
 		}
 		else
 		{
 			// Otherwise, use the walk animation.
-			animation.Play("walk");
+			animation.CrossFade("walk");
 		}
 	}
 }

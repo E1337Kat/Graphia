@@ -19,6 +19,11 @@ public class KeyController : MonoBehaviour
 	private WalkController walkController;
 	
 	/// <summary>
+	/// The distance from the player object divided by deltaTime that the destination object should be set to.
+	/// </summary>
+	public float destinationDistance;
+	
+	/// <summary>
 	/// This is the Start method, called at the initialization of the class and used to set walkController to the instance of
 	/// WalkController on this object.
 	/// </summary>
@@ -42,7 +47,7 @@ public class KeyController : MonoBehaviour
 			
 			// Normalize and multiply by deltaTime to remove any bias in player movement.
 			direction.Normalize();
-			direction *= Time.deltaTime;
+			direction *= Time.deltaTime * destinationDistance;
 			
 			// Compensate for offset on camera position.
 			direction += Camera.main.transform.InverseTransformPoint(transform.position);
