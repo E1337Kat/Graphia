@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (WalkController))]
+
 /// <summary>
 /// This is the KeyController component. It is used to detect key presses or joystick axis movement and move the player
 /// accordingly. This movement is performed relative to the camera, so forward is always away from the camera, backwards

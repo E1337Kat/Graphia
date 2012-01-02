@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (WalkController))]
+
 /// <summary>
 /// This is the ClickController component. It is used to recognize clicks/taps on the environment by the user to allow for
 /// mouse/finger based navigation similar to that in World of Warcraft. The user clicks on a location and the player object
