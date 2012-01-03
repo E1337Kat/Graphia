@@ -11,6 +11,7 @@ using System.Collections;
 /// </summary>
 public class ClickController : MonoBehaviour
 {
+	private int raycastLayers;
 	/// <summary>
 	/// This is a reference to the walk controller component used to speed method calls on this class at runtime by preventing
 	/// the use of the GetComponent method at any point other than initialization. It is assigned in the Start method.
@@ -27,6 +28,11 @@ public class ClickController : MonoBehaviour
 	/// </summary>
 	void Start ()
 	{
+		// Initialize the raycastLayers
+		raycastLayers = 1 << 9;
+		raycastLayers = ~raycastLayers;
+		
+		// Initialize the walkController.
 		walkController = GetComponent<WalkController>();
 	}
 	
@@ -40,8 +46,16 @@ public class ClickController : MonoBehaviour
 		if (Input.GetButton("Click"))
 		{
 			// Calculate the raycast from the mouse position and update the hit variable.
-			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, raycastLayers))
 			{
+				Equipable equiped = hit.transform.GetComponent<Equipable>();
+				
+				// If object is equipable,
+				if(equiped!=null)
+				{
+					equiped.Equip(gameObject);
+				}
+				
 				// Set the destination of the NavMeshAgent to the raycast point.
 				walkController.destination = hit.point;
 			}

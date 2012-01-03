@@ -58,9 +58,9 @@ ENDCG
             Cull Front
 
             // you can choose what kind of blending mode you want for the outline
-            //Blend SrcAlpha OneMinusSrcAlpha // Normal
+            Blend SrcAlpha OneMinusSrcAlpha // Normal
             //Blend One One // Additive
-            Blend One OneMinusDstColor // Soft Additive
+            //Blend One OneMinusDstColor // Soft Additive
             //Blend DstColor Zero // Multiplicative
             //Blend DstColor SrcColor // 2x Multiplicative
 
