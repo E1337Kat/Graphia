@@ -21,7 +21,8 @@ public class Equipable : MonoBehaviour
 	/// </param>
 	public void Equip (GameObject player) {
 		transform.parent = player.transform.Find(attachTo);
-		transform.position = Vector3.zero;
-		transform.rotation = Quaternion.identity;
+		transform.localPosition = Vector3.zero;
+		transform.localRotation = Quaternion.identity;
+		gameObject.layer = 9;
 	}
 }
