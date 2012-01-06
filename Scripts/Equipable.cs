@@ -25,4 +25,16 @@ public class Equipable : MonoBehaviour
 		transform.localRotation = Quaternion.identity;
 		gameObject.layer = 9;
 	}
+	
+	/// <summary>
+	/// This is the Unequip method, called from the clickController component, that allows objects to be unequipped upon clicking
+	/// or tapping. It unequips by parenting the player to this object and nulling its position and rotation.
+	/// </summary>
+	/// <param name='player'>
+	/// The player being attached to.
+	/// </param>
+	public void Unequip () {
+		transform.parent = null;
+		gameObject.layer = 0;
+	}
 }
