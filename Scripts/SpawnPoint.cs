@@ -13,12 +13,12 @@ public class SpawnPoint : MonoBehaviour
 	void OnConnectedToServer ()
 	{
 		Instantiate(cameraPrefab, transform.position, transform.rotation);
-		Camera.main.transform.GetComponent<CameraFollow>().target = (Transform) Network.Instantiate(playerPrefab, transform.position, transform.rotation, 0);
+		Camera.main.transform.GetComponent<CameraFollow>().target = PhotonNetwork.Instantiate(playerPrefab, transform.position, transform.rotation, 0).transform;
 	}
 	
 	void OnServerInitialized ()
 	{
 		Instantiate(cameraPrefab, transform.position, transform.rotation);
-		Camera.main.transform.GetComponent<CameraFollow>().target = (Transform) Network.Instantiate(playerPrefab, transform.position, transform.rotation, 0);
+		Camera.main.transform.GetComponent<CameraFollow>().target = PhotonNetwork.Instantiate(playerPrefab, transform.position, transform.rotation, 0).transform;
 	}
 }
