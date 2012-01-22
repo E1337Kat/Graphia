@@ -28,6 +28,9 @@ public class CameraFollow : MonoBehaviour
 	/// </summary>
 	void Update ()
 	{
+		if(target==null)
+			return;
+		
 		Vector3 screenCenter = target.position;
 		float distance = 0.0f;
 		float height = 0.0f;
